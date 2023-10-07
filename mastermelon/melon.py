@@ -22,6 +22,7 @@ from mastermelon import cookiegame
 from mastermelon import gen_image
 from mastermelon import feedback
 from mastermelon.utils.is_valid_guild import is_valid_guild_check, is_valid_guild
+from mastermelon.utils.get_user_display_name import get_user_display_name
 
 
 def get_date_str():
@@ -704,8 +705,10 @@ async def axleaderboard(ctx: discord.ext.commands.Context):
 
     output = f"{ej.ax_emoji} Leaderboard\n" + f"Rank, Amount, User\n"
 
-    for i, userAx in enumerate(cursor):
-        output += f'{i}. {userAx["ax"]}{ej.ax_emoji}: {ctx.message.guild.get_member(userAx["duuid"]).display_name}\n'
+    for i, user_ax in enumerate(cursor):
+        name = get_user_display_name(ctx, user_ax["duuid"])
+
+        output += f'{i}. {user_ax["ax"]}{ej.ax_emoji}: {name}\n'
 
     await ctx.reply(output)
 
